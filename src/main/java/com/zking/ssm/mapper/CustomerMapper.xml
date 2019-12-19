@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zking.ssm.mapper.CustomerMapper">
+    <resultMap id="OTM" type="com.zking.ssm.model.Customer">
+        <id property="customerId" javaType="integer" column="customer_id"/>
+        <result property="customerName" javaType="string" column="customer_name"/>
+        <collection property="orders" ofType="com.zking.ssm.model.Order">
+            <id property="orderId" javaType="integer" column="order_id"/>
+            <result property="orderNo" javaType="string" column="order_no"/>
+            <result property="cid" javaType="integer" column="cid"/>
+        </collection>
+    </resultMap>
+    <sql id="Base_Column_List">
+    customer_id, customer_name
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="OTM" parameterType="java.lang.Integer">
+        select
+        *
+        from t_customer a left join t_order b on a.customer_id = b.cid
+        where a.customer_id = #{customerId}
+    </select>
+</mapper>
